@@ -21,15 +21,17 @@ var app = {
     // Application Constructor
     initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+        document.getElementById('loginbtn').addEventListener('click', this.validate);
+        document.getElementById('signup').addEventListener('click', this.createUser);
     },
-
+    
     // deviceready Event Handler
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function () {
         this.receivedEvent('deviceready');
-
+        
         document.addEventListener('deviceready', function () {
             db = window.sqlitePlugin.openDatabase({
                 name: 'my.db',
@@ -38,14 +40,11 @@ var app = {
         });
 
         db.transaction(function (tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS DemoTable (name, score)');
-            tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Alice', 101]);
-            tx.executeSql('INSERT INTO DemoTable VALUES (?,?)', ['Betty', 202]);
+            tx.executeSql('CREATE TABLE IF NOT EXISTS users (email, password, name, dateborn)');
         }, function (error) {
-
-            alert('Transaction ERROR: ' + error.message);
+            console.log('Transaction ERROR: ' + error.message);
         }, function () {
-            alert('Populated database OK');
+            console.log('Populated database OK');
         });
     },
 
@@ -59,12 +58,44 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-        window.location.href = "../login.html"; 
+    },
+
+    validate: function (){
+        let validUser = false;
+        let validPassword = false;
+        let email = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        db.transaction(function (tx) {
+            tx.executeSql('SELECT count(email) AS mycount FROM users WHERE email=?', [email], function(tx, rs) {
+                if(rs.rows.item(0).mycount == 1){
+                    validUser = true;
+                }
+            }, function (tx, error) {
+                alert('SELECT error: ' + error.message);
+            });
+            if(validUser){
+                tx.executeSql('SELECT count(password) AS mycount FROM users WHERE password=?', [password], function(tx, rs) {
+                    if(rs.rows.item(0).mycount == 1){
+                        validPassword = true;
+                    }
+                }, function (tx, error) {
+                    alert('SELECT error: ' + error.message);
+                });
+            }
+        });
+        if(validUser && validPassword){
+            window.location.href = "home.html"
+        }
+        else{
+            alert("Usuário ou senha inválido");
+        }
+
+    },
+    
+    createUser: function (){
+        document.getElementById('content_one').innerHTML = '<object type="text/html" data="signup.html" style="height:1000px;"></object>';
     }
 };
 
 app.initialize();
-
-function myFunction() {
-    alert("alloww");
-}

@@ -1,4 +1,4 @@
- 
+
 <!DOCTYPE html>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
@@ -12,7 +12,7 @@
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
+    KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
     under the License.
 -->
@@ -35,11 +35,23 @@
         <title>MovieDB-project</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Device listener</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening"></p>
-                <p class="event received"></p>
+        <div id="content_one">
+            <div id='app' class="app">
+                <div id="deviceready" class="blink">
+                    <p class="event listening"></p>
+                    <p class="event received"></p>
+                </div>
+                <div id='content' class="container text-center">
+                    <form class="form-signin" method="POST">
+                        <h1 class="h3">MovieDB-project</h1>
+                        <br/><label for="inputEmail" class="sr-only">user</label>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="user" required autofocus>
+                        <br/><label for="inputPassword" class="sr-only">password</label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="passwd" required>
+                        <br/><button id="loginbtn" class="btn" type="submit" name="loginbtn">Login</button>
+                        <button id="signup" class="btn" type="button" name="signup">Create User</button>
+                    </form>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>

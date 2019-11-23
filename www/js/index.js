@@ -22,6 +22,7 @@ var app = {
     initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         document.getElementById('loginbtn').addEventListener('click', this.validate);
+        document.getElementById('signup').addEventListener('click', this.createUser);
     },
     
     // deviceready Event Handler
@@ -90,6 +91,10 @@ var app = {
             alert("Usuário ou senha inválido");
         }
 
+    },
+    
+    createUser: function (){
+        document.getElementById('content_one').innerHTML = '<object type="text/html" data="signup.html" style="height:1000px;"></object>';
     }
 };
 
